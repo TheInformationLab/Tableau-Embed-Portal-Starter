@@ -4,17 +4,21 @@ import fetch from 'node-fetch'
 
 const getProjects = async (data: any) => {
   const { server, authToken, siteId } = data
-  const fetchURL = `https://${server}/api/3.9/sites/${siteId}/projects`
-  const info = await fetch(fetchURL, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-Tableau-Auth': authToken,
-    },
-  })
-  const responseData = await info.json()
-  return responseData
+  const fetchURL = `https://${server}/api/${process.env.TAB_VERSION}/sites/${siteId}/projects`
+  try {
+    const info = await fetch(fetchURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-Tableau-Auth': authToken,
+      },
+    })
+    const responseData = await info.json()
+    return responseData
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export default async function handler(
@@ -23,8 +27,7 @@ export default async function handler(
 ) {
   try {
     const response: ResponseProps = await authTableau(data)
-    //   need to user the REST API to get the projects
-
+    //   need to use the REST API to get the projects
     const projects = await getProjects({
       server: process.env.TAB_SERVER,
       authToken: response.credentials.token,

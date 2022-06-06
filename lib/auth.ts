@@ -27,7 +27,7 @@ export const authTableau = async (data: AuthProps): Promise<ResponseProps> => {
   const { server, site, paName, paTokenSecret } = data
   console.log(data)
   // console.log("Data from data/auth", { data });
-  const url = `https://${server}/api/3.9/auth/signin`
+  const url = `https://${server}/api/${process.env.TAB_VERSION}/auth/signin`
   const body = {
     credentials: {
       personalAccessTokenName: paName,
