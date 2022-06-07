@@ -22,6 +22,28 @@ const workbooks = (projectName: string) => `query workbooks{
         }
     }`
 
+const workbook = (workbookId: string) => `query workbook{
+        workbooks (filter: { id: "${workbookId}"}) {
+            id
+            site {
+              id
+              name
+            }
+            luid
+            name
+            projectName
+            dashboards {
+              name
+              id
+            }
+            owner {
+              id
+              name
+            }
+            uri
+          }
+}`
+
 const getDatabasesOnSite = `query getDatabasesOnMySite{
     databases {
         id
@@ -45,6 +67,7 @@ const basicDataSourceList = `{
 }`
 export const queries = {
   workbooks,
+  workbook,
   getDatabasesOnSite,
   basicDataSourceList,
 }

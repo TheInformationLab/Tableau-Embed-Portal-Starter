@@ -133,7 +133,7 @@ const getProjects = async (data: any) => {
 }
 ```
 
-The authtoken from the authentication call is being using the `X-Tableau-Auth` header. No paging is implemented in this example. If you would like the implement pagination, please see the [Tableau API documentation](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_concepts_paging.htm).
+The authtoken from the authentication call is being using the `X-Tableau-Auth` header. No paging is implemented in this example. If you would like to implement pagination, please see the [Tableau API documentation](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_concepts_paging.htm).
 
 **Note:** the authtoken is valid for 240 minutes by default. If you need to refresh the token, you need to call the authentication API again. However, this depends on your setup. This starter kit does not store the authentication token anywhere and is being called each time you refresh the page. This might lead to a lot of calls to your Tableau Cloud or Server site. A good setup for production would be to store the token in a database and call the authentication API only when the token is expired.
 
@@ -167,10 +167,20 @@ const workbooks = (projectName: string) => `query workbooks{
     }`
 ```
 
-I have also included two other GraphQL queries in the `metadataQueries.ts` to showcase how to fetch more resources from Tableau Metadata API.
+I have also included two other GraphQL queries in the `metadataQueries.ts` file to showcase how to fetch more resources from Tableau Metadata API.
 
 ## Single Sign On / Authentication
 
-I have not implemented a Single Sign On (SSO) provider with SAML in this starter kit. There are so many options. Internally at The Information Lab we use Auth0 for SSO. However, this is not a requirement. Your portal can use any other SSO provider. To learn more about configuring this for Tableau Cloud / Online please see the [Tableau Cloud / Online documentation](https://help.tableau.com/current/online/en-us/saml.htm).
+I have not implemented a Single Sign On (SSO) provider with SAML in this starter kit. There are so many options. Internally at The Information Lab we use [Auth0](https://auth0.com/) for SSO. However, this is not a requirement. Your portal can use any other SSO provider. To learn more about configuring this for Tableau Cloud / Online please see the [Tableau Cloud / Online documentation](https://help.tableau.com/current/online/en-us/saml.htm).
 
-I have implemented a very simple authentication flow that stores login details to local storage. This is just for illustrating the concept. The main
+I have implemented a very simple authentication flow that stores login details to local storage. This is just for illustrating the concept. The main idea is to find an easy way to store the login details in your application. These details are then being using the `api/tableau/token.ts` file to get the JWT token for the embedded dashboards.
+
+## Connected Apps / JWT
+
+Connected Apps allow you to setup a trusted relationship between your Tableau Server/Online site and a custom application. This process is established and verified through an authentication token in the JSON Web Token (JWT) standard, which uses a shared secret provided by the Tableau connected app and signed by your custom application.
+
+You can learn more about Connected Apps on my [interactive playground](https://playground.theinformationlab.io/)
+
+## Embedding Dashboards
+
+The main goal of the portal is to let users interact with Tableau dashboards. The Tableau Embedding API is used to embed dashboards in your application. My colleague Craig Bloodworth has created an [interactive tutorial](https://tableau-connectedapps.theinformationlab.io) that walks you through the steps to embed a Tableau dashboard in a React application. This start kit also uses the code from this tutorial to embed dashboards.

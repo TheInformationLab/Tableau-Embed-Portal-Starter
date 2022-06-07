@@ -11,6 +11,7 @@ import { useLocalStorage } from 'react-use'
 import Layout from '../components/Layout'
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
+import Breadcrumb from '../components/BreadCrumb'
 
 export default function Home() {
   const [userName, setUserName, removeUserName] = useLocalStorage<string>(
